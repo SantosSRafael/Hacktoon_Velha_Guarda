@@ -21,5 +21,5 @@ def principal():
     print(transcricaoCliente)
     print("Fala do Operador: ")
     print(transcricaoOperador)
-
+ 
 principal()
