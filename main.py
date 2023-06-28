@@ -17,9 +17,9 @@ def principal():
 
     transcricaoOperador = transcreveAudio(speech_key,service_region,language,nomeArquivoOperador)
 
-    print("Cliente: ")
+    print("Fala do Cliente: ")
     print(transcricaoCliente)
-    print("Operador: ")
+    print("Fala do Operador: ")
     print(transcricaoOperador)
 
 principal()
