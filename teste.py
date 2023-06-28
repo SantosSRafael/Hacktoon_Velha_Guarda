@@ -9,7 +9,7 @@ speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_r
 
 # Creates an audio configuration that points to an audio file.
 # Replace with your own audio filename.
-audio_filename = "TesteConversa.wav"
+audio_filename = "TesteEsterio_Cliente.wav"
 audio_input = speechsdk.audio.AudioConfig(filename=audio_filename)
 
 # Creates a recognizer with the given settings
