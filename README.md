@@ -19,6 +19,7 @@ Este projeto é uma aplicação em Python que realiza análise de discurso utili
 2. Aperte (CTRL + SHIFT + P) e crie um .venv
 3. Selecione o interpretador do python (versão 3.11)
 4. Selecione o requirements.txt para fazer instalação dos pacotes necessários
+5. Após isso, vá na aba de debug na lateral esquerda e execute o projeto
 
 ```bash
 git clone https://github.com/seu-usuario/speech-analysis.git
