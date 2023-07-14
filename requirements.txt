@@ -1,4 +1,5 @@
 azure.cognitiveservices.speech
 pyaudio
 soundcard
+sounddevice
 soundfile
