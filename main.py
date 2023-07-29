@@ -1,25 +1,20 @@
 from azureLib import *
+from lib import *
 
 
-speech_key      = "6424fc8703a443ab9b8bf97b97d3d73c"
-service_region  = "brazilsouth"
-language        = "pt-br"
-
-audio_filename = "TesteEsterio.wav"
 
 def principal():
-    separaAudio(audio_filename)
+    limpaDiretorio()
+
+    cOperador =  '1'
+    cCliente  =  '1'
+    audio_filename = "TesteEsterio.wav"
+
+    arquivosSeparados = separaAudio(audio_filename)
     
-    nomeArquivoCliente  = "temp/" + retornaNomeSemExtensao(audio_filename) + "_Cliente.wav"
-    nomeArquivoOperador = "temp/" + retornaNomeSemExtensao(audio_filename) + "_Operador.wav"
+    transcricaoCliente  = transcreveAudio(arquivosSeparados[0])
+    transcricaoOperador = transcreveAudio(arquivosSeparados[1])
 
-    transcricaoCliente = transcreveAudio(speech_key,service_region,language,nomeArquivoCliente)
-
-    transcricaoOperador = transcreveAudio(speech_key,service_region,language,nomeArquivoOperador)
-
-    print("Fala do Cliente: ")
-    print(transcricaoCliente)
-    print("Fala do Operador: ")
-    print(transcricaoOperador)
- 
+    insereTranscricao(cOperador,cCliente,transcricaoOperador,transcricaoCliente)
+    
 principal()

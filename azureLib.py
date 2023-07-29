@@ -2,9 +2,16 @@ import azure.cognitiveservices.speech as speechsdk
 import time
 import datetime
 from audioSplit import *
+from lib import *
+import neocript
 
+def transcreveAudio(audio_filename):
 
-def transcreveAudio(speech_key,service_region,language,audio_filename):
+    configAPI = sqlRetornaConfigAPI()
+
+    speech_key      = neocript.Descriptografa(configAPI["speechKey"].values[0])
+    service_region  = neocript.Descriptografa(configAPI["serviceRegion"].values[0])
+    language        = neocript.Descriptografa(configAPI["language"].values[0])
     # Creates an instance of a speech config with specified subscription key and service region.
     # Replace with your own subscription key and region identifier from here: https://aka.ms/speech/sdkregion
 
