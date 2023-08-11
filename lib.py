@@ -99,3 +99,28 @@ def sqlRetornaConfigAPI():
     
     # insereLog("Finaliza - Retorna Config API")
     return data
+
+def juntaFalas(falaCliente, falaOperador):
+
+    # Combinação dos arrays
+    array_combinado = falaCliente + falaOperador
+
+    # Ordenar o array pelo tempo de início
+    array_combinado.sort(key=lambda x: x[1])
+
+    # Adicionar o tipo de fala a cada linha
+    for linha in array_combinado:
+        # Verificar se a linha pertence ao array do Cliente ou do Operador
+        if linha in falaCliente:
+            linha.append('Cliente')
+        else:
+            linha.append('Operador')
+
+    falasProcessadas = []
+
+    # Imprimir o array resultante
+    for linha in array_combinado:
+        falasProcessadas.append(linha)
+        #print(linha)
+
+    return falasProcessadas

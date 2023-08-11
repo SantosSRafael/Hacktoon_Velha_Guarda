@@ -5,13 +5,11 @@ from audioSplit import *
 from lib import *
 import neocript
 
-def transcreveAudio(audio_filename):
-
-    configAPI = sqlRetornaConfigAPI()
-
-    speech_key      = neocript.Descriptografa(configAPI["speechKey"].values[0])
-    service_region  = neocript.Descriptografa(configAPI["serviceRegion"].values[0])
-    language        = neocript.Descriptografa(configAPI["language"].values[0])
+def transcreveAudio():
+    speech_key      = '6424fc8703a443ab9b8bf97b97d3d73c'
+    service_region  = 'brazilsouth'
+    language        = 'pt-BR'
+    audio_filename  = 'TesteEsterio_Operador.wav'
     # Creates an instance of a speech config with specified subscription key and service region.
     # Replace with your own subscription key and region identifier from here: https://aka.ms/speech/sdkregion
 
@@ -35,7 +33,8 @@ def transcreveAudio(audio_filename):
 
     #https://learn.microsoft.com/en-us/python/api/azure-cognitiveservices-speech/azure.cognitiveservices.speech.recognitionresult?view=azure-python
     def handle_final_result(evt):
-        all_results.append(evt.result.text) 
+        # all_results.append(evt.result.text, evt.result.text, evt.result.duration) 
+        all_results.append([evt.result.text, evt.result.offset, evt.result.offset + evt.result.duration]) 
                         
     done = False
 
@@ -70,6 +69,8 @@ def transcreveAudio(audio_filename):
         time.sleep(.5)
 
     # print(all_results)
-    return all_results 
+    return all_results
+
+print(transcreveAudio())
     # print("Printing all results:")
     # print(all_results)
