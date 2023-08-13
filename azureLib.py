@@ -35,7 +35,7 @@ def transcreveAudio(audio_filename):
 
     #https://learn.microsoft.com/en-us/python/api/azure-cognitiveservices-speech/azure.cognitiveservices.speech.recognitionresult?view=azure-python
     def handle_final_result(evt):
-        all_results.append(evt.result.text) 
+        all_results.append([evt.result.text, evt.result.offset, evt.result.offset + evt.result.duration]) 
                         
     done = False
 

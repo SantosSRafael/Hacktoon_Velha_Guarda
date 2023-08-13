@@ -23,13 +23,14 @@ User                = neocript.Descriptografa(config["CONEXAO"]["User"])
 Password            = neocript.Descriptografa(config["CONEXAO"]["Password"])
 
 RetornaConfigAPI          = neocript.Descriptografa(config["PROCS"]["RetornaConfigAPI"])
+RetornaFila               = neocript.Descriptografa(config["PROCS"]["RetornaFila"])
 InsereTranscricaoConversa = neocript.Descriptografa(config["PROCS"]["InsereTranscricaoConversa"])
 
 
 def retornaNomeSemExtensao(audio_file):
     return os.path.splitext(audio_file)[0]
 
-def insereTranscricao(cOperador,cCliente,falaOperador,falaCliente):
+def insereTranscricao(cConversa,locutor, texto, inicioFala, fimFala):
     conn = pyodbc.connect(
         "DRIVER={SQL Server Native Client 11.0};"
         "Server=" + Server + ";"
@@ -38,12 +39,12 @@ def insereTranscricao(cOperador,cCliente,falaOperador,falaCliente):
         "pwd=" + Password + ""
     )
    
-    falaOperador = '; '.join(falaOperador) # str(falaOperador).replace("'","_")
-    falaCliente  = '; '.join(falaCliente) # str(falaCliente).replace("'","_")
+    # falaOperador = '; '.join(falaOperador) # str(falaOperador).replace("'","_")
+    # falaCliente  = '; '.join(falaCliente) # str(falaCliente).replace("'","_")
 
-    sql = f"exec {InsereTranscricaoConversa} '{cOperador}','{cCliente}','{falaOperador}','{falaCliente}'"
+    sql = f"exec {InsereTranscricaoConversa} '{cConversa}','{locutor}','{texto}','{inicioFala}','{fimFala}'"
 
-    print(sql)
+    # print(sql)
 
     cursor = conn.cursor()
     cursor.execute(sql)
@@ -86,6 +87,32 @@ def sqlRetornaConfigAPI():
         )
     
         sql = "exec " + RetornaConfigAPI
+
+        try:
+            data = pd.read_sql_query(sql, conn)
+        except:
+            data = pd.DataFrame()
+
+        conn.close()
+    except Exception as e:
+        pass
+    #     insereLog("Falha no retorno de config API: " + str(e))
+    
+    # insereLog("Finaliza - Retorna Config API")
+    return data
+
+def sqlRetornaFila():
+    # insereLog("Inicia - Retona Config API")
+    try:
+        conn = pyodbc.connect(
+            "DRIVER={SQL Server Native Client 11.0};"
+            "Server=" + Server + ";"
+            "Database=" + Database + ";"
+            "uid=" + User + ";"
+            "pwd=" + Password + ""
+        )
+    
+        sql = "exec " + RetornaFila
 
         try:
             data = pd.read_sql_query(sql, conn)
