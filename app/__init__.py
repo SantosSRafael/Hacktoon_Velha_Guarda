@@ -7,7 +7,9 @@ def create_app():
     channels=1,
     output_file_name='output.wav',
     input_file_name='input.wav',
-    final_path_audio='C:/Users/user/Documents/' ## Colocar aqui o caminho em que o arquivo deve cair
+    final_path_audio='C:/Users/user/Documents/', ## Colocar aqui o caminho em que o arquivo deve cair
+    cOperador=1,
+    cCliente=1
   )
 
   gravador.gravar()   

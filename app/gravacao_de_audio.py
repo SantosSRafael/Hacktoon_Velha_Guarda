@@ -4,13 +4,15 @@ import app.junta_audios as ja
 
 
 class Gravador:
-    def __init__(self, block_size, sample_rate, channels , output_file_name, input_file_name, final_path_audio):
+    def __init__(self, block_size, sample_rate, channels , output_file_name, input_file_name, final_path_audio, cOperador, cCliente):
         self.block_size = block_size #1024
         self.sample_rate = sample_rate #44100
         self.channels = channels #1
         self.output_file_name = output_file_name #'output.wav'
         self.input_file_name = input_file_name #'input.wav'
         self.final_path_audio = final_path_audio 
+        self.cOperador = cOperador
+        self.cCliente = cCliente
 
     def gravar(self):        
         output_device = sc.get_microphone(id=str(sc.default_speaker().name), include_loopback=True)
@@ -23,6 +25,8 @@ class Gravador:
         if input_device is None:
             print("Nenhum dispositivo de entrada encontrado.")
             exit()
+
+        print(input_device, output_device)
 
         # Configurar o buffer de gravação
 
@@ -56,4 +60,4 @@ class Gravador:
         input_file.close()
 
         print("Gravação finalizada. Gerando áudio unificado...")
-        ja.unifica_audio(self.output_file_name, self.input_file_name, self.final_path_audio)
+        ja.unifica_audio(self.output_file_name, self.input_file_name, self.final_path_audio, self.cOperador, self.cCliente)

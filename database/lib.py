@@ -9,8 +9,8 @@ import sys
 config = configparser.ConfigParser()
 
 # Le o arquivo config.
-with open(r"config.ini"):
-    config.read(r"config.ini")
+with open(r"database/config.ini"):
+    config.read(r"database/config.ini")
 
 # Laço para pegar todas os itens e sessoes no arquivo.
 for s in config.sections():

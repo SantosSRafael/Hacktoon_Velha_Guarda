@@ -4,7 +4,7 @@ import os
 from datetime import datetime as dt
 from database.lib import Conexao_BD
 
-def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio):
+def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio, cOperador, cCliente):
 
 
   # Carregue os arquivos de áudio usando a função `read` do soundfile
@@ -37,7 +37,7 @@ def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio):
   print('Áudio combinado salvo com sucesso.')
 
   conexao = Conexao_BD()
-  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas 1, 1, '{audio_combinado_path}', '{now.strftime('%Y_%m_%d')}'")
+  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas {cOperador}, {cCliente}, '{audio_combinado_path}', '{now.strftime('%Y_%m_%d')}'")
 
   if os.path.exists(audio_esquerda_path): # checking for folder existance    
     os.remove(audio_esquerda_path)     
