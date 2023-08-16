@@ -3,3 +3,6 @@ pyaudio
 soundcard
 sounddevice
 soundfile
+sqlalchemy
+pandas
+pyodbc

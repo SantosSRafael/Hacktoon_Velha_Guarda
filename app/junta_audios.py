@@ -1,11 +1,11 @@
 import soundfile as sf
 import numpy as np
+import os
+from datetime import datetime as dt
+from database.lib import Conexao_BD
 
-def unifica_audio(audio_esquerda_path, audio_direita_path):
+def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio):
 
-  # Defina o caminho para os dois arquivos de áudio que você deseja combinar
-  # audio_esquerda_path = 'caminho_para_o_audio_esquerda.wav'
-  # audio_direita_path = 'caminho_para_o_audio_direita.wav'
 
   # Carregue os arquivos de áudio usando a função `read` do soundfile
   audio_esquerda, samplerate_esquerda = sf.read(audio_esquerda_path)
@@ -26,12 +26,23 @@ def unifica_audio(audio_esquerda_path, audio_direita_path):
   # Crie um novo array numpy para o áudio combinado com dois canais
   audio_combinado = np.column_stack((audio_esquerda, audio_direita))
 
+  now = dt.now()
+
   # Defina o caminho para o arquivo de saída combinado
-  audio_combinado_path = 'caminho_para_o_audio_combinado.wav'
+  audio_combinado_path = f'{final_path_audio}Gravacao_{now.strftime("%m_%d_%Y__%H_%M_%S")}.wav'
 
   # Salve o áudio combinado no arquivo de saída usando a função `write` do soundfile
-  sf.write(audio_combinado_path, audio_combinado, samplerate_esquerda, subtype='PCM_16')
+  sf.write(audio_combinado_path, audio_combinado, samplerate_esquerda, subtype='PCM_16')    
 
   print('Áudio combinado salvo com sucesso.')
+
+  conexao = Conexao_BD()
+  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas 1, 1, '{audio_combinado_path}', '{now.strftime('%Y_%m_%d')}'")
+
+  if os.path.exists(audio_esquerda_path): # checking for folder existance    
+    os.remove(audio_esquerda_path)     
+
+  if os.path.exists(audio_direita_path): # checking for folder existance    
+    os.remove(audio_direita_path) 
 
 # unifica_audio('output.wav', 'input.wav')

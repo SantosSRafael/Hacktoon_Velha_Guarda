@@ -1,6 +1,13 @@
-from app.gravacao_de_audio import Gravador, funcao_a
+from app.gravacao_de_audio import Gravador
 
-objeto = Gravador("João")
-objeto.saudacao()  # Saída: "Olá, João!"
+def create_app():
+  gravador = Gravador(
+    block_size=1024,
+    sample_rate=44100,
+    channels=1,
+    output_file_name='output.wav',
+    input_file_name='input.wav',
+    final_path_audio='C:/Users/user/Documents/' ## Colocar aqui o caminho em que o arquivo deve cair
+  )
 
-funcao_a()  # Saída: "Função A executada"
+  gravador.gravar()   
