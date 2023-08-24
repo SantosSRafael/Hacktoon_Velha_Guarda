@@ -4,6 +4,8 @@ import datetime
 from audioSplit import *
 from lib import *
 import neocript
+import warnings
+warnings.filterwarnings("ignore")
 
 def transcreveAudio():
     speech_key      = '6424fc8703a443ab9b8bf97b97d3d73c'

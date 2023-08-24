@@ -1,0 +1,6 @@
+azure-cognitiveservices-speech
+pyodbc
+pandas
+sqlalchemy
+pydub
+requests

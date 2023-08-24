@@ -1,3 +1,4 @@
+import requests as rq
 import neocript
 import configparser
 import pyodbc
@@ -5,6 +6,8 @@ import pandas as pd
 from sqlalchemy import create_engine
 import os
 import sys
+import warnings
+warnings.filterwarnings("ignore")
 
 config = configparser.ConfigParser()
 
@@ -25,6 +28,7 @@ Password            = neocript.Descriptografa(config["CONEXAO"]["Password"])
 RetornaConfigAPI          = neocript.Descriptografa(config["PROCS"]["RetornaConfigAPI"])
 RetornaFila               = neocript.Descriptografa(config["PROCS"]["RetornaFila"])
 InsereTranscricaoConversa = neocript.Descriptografa(config["PROCS"]["InsereTranscricaoConversa"])
+RetornaFilaAnalise        = neocript.Descriptografa(config["PROCS"]["RetornaFilaAnalise"])
 
 
 def retornaNomeSemExtensao(audio_file):
@@ -32,7 +36,7 @@ def retornaNomeSemExtensao(audio_file):
 
 def insereTranscricao(cConversa,locutor, texto, inicioFala, fimFala):
     conn = pyodbc.connect(
-        "DRIVER={SQL Server Native Client 11.0};"
+        "DRIVER={ODBC Driver 17 for SQL Server};"
         "Server=" + Server + ";"
         "Database=" + Database + ";"
         "uid=" + User + ";"
@@ -79,7 +83,7 @@ def sqlRetornaConfigAPI():
     # insereLog("Inicia - Retona Config API")
     try:
         conn = pyodbc.connect(
-            "DRIVER={SQL Server Native Client 11.0};"
+            "DRIVER={ODBC Driver 17 for SQL Server};"
             "Server=" + Server + ";"
             "Database=" + Database + ";"
             "uid=" + User + ";"
@@ -105,7 +109,7 @@ def sqlRetornaFila():
     # insereLog("Inicia - Retona Config API")
     try:
         conn = pyodbc.connect(
-            "DRIVER={SQL Server Native Client 11.0};"
+            "DRIVER={ODBC Driver 17 for SQL Server};"
             "Server=" + Server + ";"
             "Database=" + Database + ";"
             "uid=" + User + ";"
@@ -119,10 +123,12 @@ def sqlRetornaFila():
         except:
             data = pd.DataFrame()
 
+       
         conn.close()
+        
     except Exception as e:
+        print("Falha no retorno de config API: " + str(e))
         pass
-    #     insereLog("Falha no retorno de config API: " + str(e))
     
     # insereLog("Finaliza - Retorna Config API")
     return data
@@ -151,3 +157,42 @@ def juntaFalas(falaCliente, falaOperador):
         #print(linha)
 
     return falasProcessadas
+
+def verificaChamada(cChamada):
+    try:
+        headers = {"Content-Type": "application/json; charset=utf-8"}
+        data = {"cChamada": str(cChamada)}
+        request = rq.post('http://localhost:3333/analisar', headers=headers, json=data)
+        if request.status_code == 200:
+            print(f'Enviado para análise a chamada {cChamada}')
+        else:
+            print('Erro ao verificar chamada')
+    except Exception as e:
+        print(e)
+
+def sqlRetornaFilaAnalise():
+    # insereLog("Inicia - Retona Config API")
+    try:
+        conn = pyodbc.connect(
+            "DRIVER={ODBC Driver 17 for SQL Server};"
+            "Server=" + Server + ";"
+            "Database=" + Database + ";"
+            "uid=" + User + ";"
+            "pwd=" + Password + ""
+        )
+    
+        sql = "exec " + RetornaFilaAnalise
+
+        try:
+            data = pd.read_sql_query(sql, conn)
+        except:
+            data = pd.DataFrame()
+
+       
+        conn.close()
+        
+    except Exception as e:
+        print("Falha Retorna Fila Analise: " + str(e))
+        pass
+    
+    return data

@@ -1,6 +1,8 @@
 from pydub import AudioSegment
 import os
 from lib import *
+import warnings
+warnings.filterwarnings("ignore")
 
 def separaAudio(audio_file):
 
