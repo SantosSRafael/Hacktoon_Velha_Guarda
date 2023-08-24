@@ -29,7 +29,9 @@ def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio, cOp
   now = dt.now()
 
   # Defina o caminho para o arquivo de saída combinado
-  audio_combinado_path = f'{final_path_audio}Gravacao_{now.strftime("%m_%d_%Y__%H_%M_%S")}.wav'
+  nome_audio = f'Gravacao_{now.strftime("%m_%d_%Y__%H_%M_%S")}.wav'
+  audio_combinado_path = f'{final_path_audio}{nome_audio}'
+
 
   # Salve o áudio combinado no arquivo de saída usando a função `write` do soundfile
   sf.write(audio_combinado_path, audio_combinado, samplerate_esquerda, subtype='PCM_16')    
@@ -37,7 +39,7 @@ def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio, cOp
   print('Áudio combinado salvo com sucesso.')
 
   conexao = Conexao_BD()
-  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas {cOperador}, {cCliente}, '{audio_combinado_path}', '{now.strftime('%Y_%m_%d')}'")
+  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas {cOperador}, {cCliente}, '{nome_audio}', '{now.strftime('%Y-%m-%d')}'")
 
   if os.path.exists(audio_esquerda_path): # checking for folder existance    
     os.remove(audio_esquerda_path)     

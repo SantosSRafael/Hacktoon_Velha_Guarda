@@ -25,7 +25,7 @@ Password            = neocript.Descriptografa(config["CONEXAO"]["Password"])
 class Conexao_BD:
     def __init__(self):
         self.conn = pyodbc.connect(
-            "DRIVER={SQL Server Native Client 11.0};"
+            "DRIVER={ODBC Driver 17 for SQL Server};"
             "Server=" + Server + ";"
             "Database=" + Database + ";"
             "uid=" + User + ";"
@@ -45,6 +45,7 @@ class Conexao_BD:
             # Fechar a conexão com o banco de dados
             self.conn.close()
         except Exception as e:
+            print(e)
             self.conn.close()
             pass
         
