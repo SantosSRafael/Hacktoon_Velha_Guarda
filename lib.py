@@ -32,7 +32,8 @@ RetornaFilaAnalise        = neocript.Descriptografa(config["PROCS"]["RetornaFila
 
 
 def retornaNomeSemExtensao(audio_file):
-    return os.path.splitext(audio_file)[0]
+    return os.path.basename(audio_file)
+    # return os.path.splitext(audio_file)[0]
 
 def insereTranscricao(cConversa,locutor, texto, inicioFala, fimFala):
     conn = pyodbc.connect(
