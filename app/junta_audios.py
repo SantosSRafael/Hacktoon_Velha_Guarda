@@ -39,7 +39,7 @@ def unifica_audio(audio_esquerda_path, audio_direita_path, final_path_audio, cOp
   print('Áudio combinado salvo com sucesso.')
 
   conexao = Conexao_BD()
-  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas {cOperador}, {cCliente}, '{nome_audio}', '{now.strftime('%Y-%m-%d')}'")
+  conexao.execute_proc(f"dbo.s_Speech_Analysis_Insere_Chamadas {cOperador}, {cCliente}, '{audio_combinado_path}', '{now.strftime('%Y-%m-%d')}'")
 
   if os.path.exists(audio_esquerda_path): # checking for folder existance    
     os.remove(audio_esquerda_path)     
